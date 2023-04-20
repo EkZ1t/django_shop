@@ -7,8 +7,10 @@ from rest_framework import permissions
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    seriazlier_class = ProductSerializer 
-    
+    seriazlier_class = ProductSerializer
+    filterset_fields = ['category__slug']
+    search_fields = ['title']
+        
     def get_permissions(self):
         method = self.request.method
         if method in permissions.SAFE_METHODS:
@@ -18,3 +20,4 @@ class ProductViewSet(viewsets.ModelViewSet):
         elif method in ['DELETE', 'PUT', 'PATCH']:
             self.permission_classes = [IsOwner]
         return super().get_permissions()
+    
